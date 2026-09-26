@@ -8,7 +8,6 @@
     "success/main.html"
   ],
   "scripts": [
-    "core.js",
     "success.js"
   ]
 }
