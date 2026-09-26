@@ -4,7 +4,7 @@ const root=process.cwd(),theme=path.join(root,'theme'),dist=path.join(root,'dist
 await fs.rm(dist,{recursive:true,force:true});await fs.mkdir(dist,{recursive:true});
 async function copyTree(from,to){await fs.mkdir(to,{recursive:true});for(const e of await fs.readdir(from,{withFileTypes:true})){if(e.name==='README.md')continue;const a=path.join(from,e.name),b=path.join(to,e.name);if(e.isDirectory())await copyTree(a,b);else await fs.copyFile(a,b);}}
 async function write(rel,value){const f=path.join(dist,rel);await fs.mkdir(path.dirname(f),{recursive:true});await fs.writeFile(f,value);}
-function extractInline(html){const ms=[...html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)].filter(m=>!\\bsrc\\s*=.test(m[1])&&!/application\\/ld\\+json/i.test(m[1])&&m[2].trim());return(ms.at(-1)?.[2]||'').trim();}
+function extractInline(html){const ms=[...html.matchAll(/<script\\b([^>]*)>([\\s\\S]*?)<\\/script>/gi)].filter(m=>!/\\bsrc\\s*=/.test(m[1])&&!/application\\/ld\\+json/i.test(m[1])&&m[2].trim());return(ms.at(-1)?.[2]||'').trim();}
 function normalize(html){return html.replace(/\\n?\\s*<script[^>]*src=["']assets\\/js\\/[^"']+["'][^>]*><\\/script>/gi,'').replace(/href=["']index\\.html#productos["']/g,'href="/#productos"').replace(/href=["']index\\.html["']/g,'href="/"').replace(/href=["']admin\\.html["']/g,'href="/admin.html"').replace(/href=["']seguimiento\\.html["']/g,'href="/track"').replace(/producto\\.html\\?id=/g,'/products/');}
 await copyTree(path.join(theme,'templates'),dist);
 await copyTree(path.join(theme,'assets'),path.join(dist,'assets'));
