@@ -16,4 +16,3 @@ export default async request=>{
  await store.setJSON(id,order);
  return json({ok:true,order});
 };
-export const config={path:'/api/admin/status'};
