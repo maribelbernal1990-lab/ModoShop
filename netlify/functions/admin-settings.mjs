@@ -7,4 +7,3 @@ export default async (request)=>{
  const body=await request.json().catch(()=>({}));
  return json({ok:true,settings:await savePublicSettings(body.settings||{})});
 };
-export const config={path:'/api/admin/settings'};
