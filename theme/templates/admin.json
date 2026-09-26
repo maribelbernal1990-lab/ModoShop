@@ -8,7 +8,6 @@
     "admin/main.html"
   ],
   "scripts": [
-    "core.js",
     "admin.js"
   ]
 }
