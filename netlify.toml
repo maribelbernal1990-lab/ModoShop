@@ -27,6 +27,11 @@
   status = 200
 
 [[redirects]]
+  from = "/track"
+  to = "/seguimiento.html"
+  status = 200
+
+[[redirects]]
   from = "/track/:id"
   to = "/seguimiento.html?id=:id"
   status = 200
