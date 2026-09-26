@@ -1,1 +1,4 @@
-window.ModoMedia={url(src,w=800,fit='cover'){const s=String(src||'');if(!s||s.startsWith('data:')||s.startsWith('blob:')||s.includes('/api/media')||/^https?:\/\//i.test(s))return s;const path=s.startsWith('/')?s:'/'+s.replace(/^\/+/, '');return'/.netlify/images?url='+encodeURIComponent(path)+'&w='+Math.round(w)+'&fit='+fit+'&fm=webp&q=82'}};
+window.ModoMedia=(()=>{const LEGACY='https://55d7d1a6652f926b7952058d16423d301a086ff6--gleaming-brigadeiros-c260a9.netlify.app/assets',PROXY='https://wsrv.nl/?url=';
+ function absolute(src){const s=String(src||'');if(/^https?:\/\//i.test(s))return s;return LEGACY+'/'+s.replace(/^\/+/,'').replace(/^assets\//,'')}
+ function url(src,w=800,fit='cover'){const s=String(src||'');if(!s||s.startsWith('data:')||s.startsWith('blob:')||s.includes('/api/media'))return s;const abs=absolute(s);if(/\.svg$/i.test(abs))return abs;return PROXY+encodeURIComponent(abs)+'&w='+Math.round(w)+'&fit='+encodeURIComponent(fit)+'&output=webp&q=82'}
+ return{url,absolute}})();
