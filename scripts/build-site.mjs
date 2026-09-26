@@ -7,7 +7,7 @@ import * as esbuild from 'esbuild';
 
 const exec=promisify(execFile);
 const root=process.cwd(), theme=path.join(root,'theme'), dist=path.join(root,'dist');
-const assetOrigin=(process.env.MODOSHOP_ASSET_ORIGIN||'https://gleaming-brigadeiros-c260a9.netlify.app').replace(/\/$/,'');
+const assetOrigins=[process.env.MODOSHOP_ASSET_ORIGIN,'https://55d7d1a6652f926b7952058d16423d301a086ff6--gleaming-brigadeiros-c260a9.netlify.app','https://gleaming-brigadeiros-c260a9.netlify.app'].filter(Boolean).map(v=>String(v).replace(/\/$/,''));
 const layout=await fs.readFile(path.join(theme,'layout','theme.html'),'utf8');
 
 async function copyTree(from,to){await fs.mkdir(to,{recursive:true});for(const e of await fs.readdir(from,{withFileTypes:true})){if(e.name==='README.md')continue;const s=path.join(from,e.name),d=path.join(to,e.name);if(e.isDirectory())await copyTree(s,d);else await fs.copyFile(s,d)}}
@@ -20,7 +20,19 @@ await copyTree(path.join(theme,'assets'),path.join(dist,'assets'));
 await fs.copyFile(path.join(theme,'data','catalog-fallback.json'),path.join(dist,'assets','catalog-data.json'));
 
 const required=['logo.png','hero-tech.png','hero-family.png','products/bandolero-usb.jpg','products/camara-bombillo-360.jpg','products/camara-dual-6mp.jpg','products/licuadora-portatil.jpg','products/masajeador-mini.jpg','products/microfono-v8.jpg','products/plancha-vapor-raf.jpg','products/radios-bf888s.jpg','products/tensiometro-brazalete.jpg','products/timbre-camara-wifi.jpg'];
-for(const rel of required){const target=path.join(dist,'assets',rel);try{await fs.access(target)}catch{await fs.mkdir(path.dirname(target),{recursive:true});await exec('curl',['-fsSL','--retry','3','--connect-timeout','15',assetOrigin+'/assets/'+rel,'-o',target])}}
+for(const rel of required){
+ const target=path.join(dist,'assets',rel);
+ try{await fs.access(target);continue}catch{}
+ await fs.mkdir(path.dirname(target),{recursive:true});
+ let ok=false;
+ for(const origin of assetOrigins){
+   try{
+     await exec('curl',['-fsSL','--retry','2','--connect-timeout','12',origin+'/assets/'+rel,'-o',target]);
+     const st=await fs.stat(target); if(st.size>0){ok=true;break}
+   }catch{}
+ }
+ if(!ok)throw new Error('Required asset unavailable: '+rel+' (checked configured/stable origins)');
+}
 
 const images=[];
 async function walk(dir){for(const e of await fs.readdir(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory())await walk(p);else if(/\.(png|jpe?g)$/i.test(e.name))images.push(p)}}
