@@ -1,0 +1,1 @@
+window.ModoMedia={url(src,w=800,fit='cover'){const s=String(src||'');if(!s||s.startsWith('data:')||s.startsWith('blob:')||s.includes('/api/media'))return s;const path=s.startsWith('/')?s:'/'+s.replace(/^\/+ /,'');return'/.netlify/images?url='+encodeURIComponent(path)+'&w='+Math.round(w)+'&fit='+fit+'&fm=webp&q=82'}};
