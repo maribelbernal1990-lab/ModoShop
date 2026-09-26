@@ -1,15 +1,18 @@
 {
   "name": "modoshop-venezuela",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.3.0",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-site.mjs"
+    "build": "npm run build:site && npm run verify",
+    "build:site": "node scripts/build-site.mjs",
+    "verify": "node scripts/verify-build.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^8.1.0",
     "@netlify/functions": "^3.1.10",
     "sharp": "^0.34.3",
-    "esbuild": "^0.25.9"
+    "esbuild": "^0.25.9",
+    "adm-zip": "^0.5.16"
   }
 }
