@@ -7,7 +7,7 @@ import * as esbuild from 'esbuild';
 
 const root=process.cwd(),theme=path.join(root,'theme'),dist=path.join(root,'dist');
 const layout=await fs.readFile(path.join(theme,'layout','theme.html'),'utf8');
-const legacyAssets=(process.env.MODOSHOP_ASSET_ORIGIN||'https://gleaming-brigadeiros-c260a9.netlify.app').replace(/\/$/,'')+'/assets';
+const legacyAssets=(process.env.MODOSHOP_ASSET_ORIGIN||'https://55d7d1a6652f926b7952058d16423d301a086ff6--gleaming-brigadeiros-c260a9.netlify.app').replace(/\/$/,'')+'/assets';
 const exec=promisify(execFile);
 async function copyTree(from,to){await fs.mkdir(to,{recursive:true});for(const e of await fs.readdir(from,{withFileTypes:true})){if(e.name==='README.md')continue;const s=path.join(from,e.name),d=path.join(to,e.name);if(e.isDirectory())await copyTree(s,d);else await fs.copyFile(s,d)}}
 const readTheme=rel=>fs.readFile(path.join(theme,rel),'utf8');
