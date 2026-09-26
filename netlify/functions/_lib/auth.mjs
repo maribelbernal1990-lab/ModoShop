@@ -5,4 +5,4 @@ export const makeSession=()=>{const p=`${Date.now()}:${crypto.randomBytes(18).to
 export function validSession(request){const raw=request.headers.get('cookie')||'',m=raw.match(new RegExp(`${cookieName}=([^;]+)`));if(!m)return false;const [p,s]=m[1].split('.');if(!p||!s)return false;try{return crypto.timingSafeEqual(Buffer.from(s),Buffer.from(sign(p)))}catch{return false}}
 export const sessionCookie=v=>`${cookieName}=${v}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=86400`;
 export const clearCookie=()=>`${cookieName}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
-export const json=(data,status=200,headers={})=>({statusCode:status,headers:{'content-type':'application/json; charset=utf-8',...headers},body:JSON.stringify(data)});
+export const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json; charset=utf-8',...headers}});
