@@ -1,6 +1,6 @@
 {
   "name": "ModoShop Theme",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "routes": {
     "home": "/",
     "product": "/products/:id",
@@ -9,9 +9,19 @@
   },
   "performance": {
     "imageCDN": true,
+    "buildWebP": true,
+    "htmlCssJsMinify": true,
     "lazyLoad": true,
     "apiCacheSeconds": 30,
-    "catalogCacheSeconds": 30
+    "catalogCacheSeconds": 60
   },
-  "architecture": "shopify-inspired"
+  "architecture": "shopify-inspired-static",
+  "sourceOfTruth": [
+    "theme/layout",
+    "theme/sections",
+    "theme/snippets",
+    "theme/templates",
+    "theme/assets",
+    "theme/config"
+  ]
 }
