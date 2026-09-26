@@ -2,18 +2,15 @@
   command = "node scripts/build-site.mjs"
   publish = "dist"
   functions = "netlify/functions"
-
 [build.environment]
   NODE_VERSION = "22"
-
 [functions]
   node_bundler = "esbuild"
 
 [[headers]]
   for = "/assets/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
 [[headers]]
   for = "/*.html"
   [headers.values]
@@ -22,35 +19,41 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
 
 [[redirects]]
+  from = "/products"
+  to = "/#productos"
+  status = 302
+[[redirects]]
   from = "/products/:id"
   to = "/producto.html?id=:id"
   status = 200
-
 [[redirects]]
-  from = "/track"
-  to = "/seguimiento.html"
-  status = 200
-
-[[redirects]]
-  from = "/track/:id"
-  to = "/seguimiento.html?id=:id"
-  status = 200
-
+  from = "/checkout"
+  to = "/?cart=1"
+  status = 302
 [[redirects]]
   from = "/cart"
   to = "/?cart=1"
   status = 200
-
+[[redirects]]
+  from = "/track"
+  to = "/seguimiento.html"
+  status = 200
+[[redirects]]
+  from = "/track/:id"
+  to = "/seguimiento.html?id=:id"
+  status = 200
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 301
 [[redirects]]
   from = "/api/rate"
   to = "/.netlify/functions/rate"
   status = 200
-
 [[redirects]]
   from = "/api/reviews-summary"
   to = "/.netlify/functions/reviews-summary"
   status = 200
-
 [[redirects]]
   from = "/api/maps-config"
   to = "/.netlify/functions/maps-config"

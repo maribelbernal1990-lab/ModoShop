@@ -1,18 +1,1 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-
-const root=process.cwd();
-const requiredPages=['index.html','producto.html','admin.html','seguimiento.html','success.html','legal.html'];
-const requiredFunctions=['admin-login','catalog','create-order','track-order','reviews','admin-catalog','admin-settings','admin-upload'];
-
-for(const page of requiredPages){
-  const p=path.join(root,'dist',page);
-  const html=await fs.readFile(p,'utf8');
-  if(!html.includes('<!doctype html>')) throw new Error('Invalid HTML output: '+page);
-  if(/src=["'](?:\.\.\/)?assets\//i.test(html)) throw new Error('Unresolved local asset reference: '+page);
-}
-for(const fn of requiredFunctions){
-  const p=path.join(root,'netlify','functions',fn+'.mjs');
-  await fs.access(p);
-}
-console.log('ModoShop build verification passed');
+import fs from 'node:fs/promises';import path from 'node:path';const root=process.cwd();const requiredPages=['index.html','producto.html','admin.html','seguimiento.html','success.html','legal.html','404.html'];const requiredFunctions=['admin-login','catalog','create-order','track-order','reviews','admin-catalog','admin-settings','admin-upload'];for(const page of requiredPages){const html=await fs.readFile(path.join(root,'dist',page),'utf8');if(!html.includes('<!doctype html>'))throw new Error('Invalid HTML output: '+page);if(/(wsrv\.nl|55d7d1a6652f926b7952058d16423d301a086ff6--gleaming-brigadeiros-c260a9\.netlify\.app\/assets)/i.test(html))throw new Error('Legacy image service reference: '+page)}for(const asset of ['logo.webp','hero-tech.webp','hero-family.webp','products/masajeador-mini.webp','products/microfono-v8.webp'])await fs.access(path.join(root,'dist','assets',asset));for(const fn of requiredFunctions)await fs.access(path.join(root,'netlify','functions',fn+'.mjs'));await fs.access(path.join(root,'dist','robots.txt'));await fs.access(path.join(root,'dist','sitemap.xml'));console.log('ModoShop build verification passed');

@@ -17,18 +17,14 @@ export async function getCatalog(){
  }
  const seeded=DEFAULT_PRODUCTS.map(p=>({...p,active:true,stock:typeof p.stock==='number'?p.stock:25,sku:p.sku||p.id.toUpperCase(),compareAt:p.compareAt||null,tags:Array.isArray(p.tags)?p.tags:[p.tag].filter(Boolean),seoTitle:p.seoTitle||p.name,seoDescription:p.seoDescription||p.desc}));
  const optimized=seeded.map(p=>({...p,img:optimizeLocalAsset(p.img),gallery:Array.isArray(p.gallery)?p.gallery.map(optimizeLocalAsset):[]}));
- await store.setJSON(CATALOG_KEY,optimized);
- return optimized;
+ await store.setJSON(CATALOG_KEY,optimized); return optimized;
 }
 export async function saveCatalog(products){
  const sanitized=clone(products).map(p=>({...p,id:String(p.id||'').trim(),name:String(p.name||'').trim(),price:Number(p.price||0),category:String(p.category||'General').trim(),desc:String(p.desc||'').trim(),features:Array.isArray(p.features)?p.features.map(String).filter(Boolean):[],bullets:Array.isArray(p.bullets)?p.bullets.map(String).filter(Boolean):[],use:Array.isArray(p.use)?p.use.map(String).filter(Boolean):[],gallery:Array.isArray(p.gallery)?p.gallery.map(String).filter(Boolean):[],active:p.active!==false,stock:Math.max(0,Math.floor(Number(p.stock??0))),sku:String(p.sku||p.id||'').trim().slice(0,80),compareAt:p.compareAt==null||p.compareAt===''?null:Number(p.compareAt),tags:Array.isArray(p.tags)?p.tags.map(String).filter(Boolean).slice(0,20):[]})).filter(p=>p.id&&p.name);
  const optimized=sanitized.map(p=>({...p,img:optimizeLocalAsset(p.img),gallery:Array.isArray(p.gallery)?p.gallery.map(optimizeLocalAsset):[]})); await configStore().setJSON(CATALOG_KEY,optimized); return optimized;
 }
 export async function getPublicSettings(){
- return await configStore().get(SETTINGS_KEY,{type:'json'})||{
- storeName:'ModoShop Venezuela',whatsapp:'584262993765',ticker:'🚚 Envíos nacionales por MRW y ZOOM · 💳 Pago Móvil · Zelle · Zinli · USDT · Compra segura',paymentInfo:'',freeShippingThreshold:0,currency:'USD',
- payments:{'Pago Móvil':true,'Transferencia bancaria':true,'Zelle':true,'Zinli':true,'USDT / Binance':true,'Tarjeta internacional':false,'Efectivo contra entrega':false}
- };
+ return await configStore().get(SETTINGS_KEY,{type:'json'})||{storeName:'ModoShop Venezuela',whatsapp:'584262993765',ticker:'🚚 Envíos nacionales por MRW y ZOOM · 💳 Pago Móvil · Zelle · Zinli · USDT · Compra segura',paymentInfo:'',freeShippingThreshold:0,currency:'USD',payments:{'Pago Móvil':true,'Transferencia bancaria':true,'Zelle':true,'Zinli':true,'USDT / Binance':true,'Tarjeta internacional':false,'Efectivo contra entrega':false}};
 }
 const cleanText=(v,max=5000)=>String(v??'').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'').slice(0,max);
 const cleanHex=(v,f)=>/^#[0-9a-fA-F]{6}$/.test(String(v||''))?String(v):f;
@@ -43,7 +39,8 @@ const normalizeEditor=(incoming,base)=>{
  design.radius=Math.min(40,Math.max(6,Number(design.radius??b.design?.radius??18))); design.shadow=design.shadow==='flat'?'flat':'soft'; design.vibrateButtons=design.vibrateButtons!==false;
  const cleanObj=(obj,depth=0)=>{if(depth>3||!obj||typeof obj!=='object'||Array.isArray(obj))return{};const r={};for(const [k,val] of Object.entries(obj).slice(0,80)){const key=cleanText(k,80);if(typeof val==='string')r[key]=cleanText(val,3000);else if(typeof val==='number'&&Number.isFinite(val))r[key]=val;else if(typeof val==='boolean')r[key]=val;else if(Array.isArray(val))r[key]=val.slice(0,30).map(x=>typeof x==='string'?cleanText(x,1000):x);else if(val&&typeof val==='object')r[key]=cleanObj(val,depth+1);}return r};
  const home=cleanObj({...((b.home)||{}),...((v.home)||{})}),header=cleanObj({...((b.header)||{}),...((v.header)||{})}),footer=cleanObj({...((b.footer)||{}),...((v.footer)||{})}),seo=cleanObj({...((b.seo)||{}),...((v.seo)||{})}),visibility=cleanObj({...((b.visibility)||{}),...((v.visibility)||{})});
- const customBlocks=Array.isArray(v.customBlocks)?v.customBlocks.slice(0,30).map(x=>({id:cleanText(x?.id,80)||('b-'+Math.random().toString(36).slice(2,8)),title:cleanText(x?.title,160),text:cleanText(x?.text,1500),image:cleanText(x?.image,1000),buttonText:cleanText(x?.buttonText,80),buttonUrl:cleanText(x?.buttonUrl,1000),active:x?.active!==false})):(Array.isArray(b.customBlocks)?b.customBlocks:[]);
+ home.heroImage=optimizeLocalAsset(cleanText(home.heroImage||'',1000));header.logo=optimizeLocalAsset(cleanText(header.logo||'',1000));seo.image=optimizeLocalAsset(cleanText(seo.image||'',1000));
+ const customBlocks=Array.isArray(v.customBlocks)?v.customBlocks.slice(0,30).map(x=>({id:cleanText(x?.id,80)||('b-'+Math.random().toString(36).slice(2,8)),title:cleanText(x?.title,160),text:cleanText(x?.text,1500),image:optimizeLocalAsset(cleanText(x?.image,1000)),buttonText:cleanText(x?.buttonText,80),buttonUrl:cleanText(x?.buttonUrl,1000),active:x?.active!==false})):(Array.isArray(b.customBlocks)?b.customBlocks:[]);
  const navOrder=Array.isArray(v.navOrder)?v.navOrder.filter(x=>['productos','como-comprar','pagos','envios','preguntas','fuentes','reciente','custom'].includes(String(x))).slice(0,12):(Array.isArray(b.navOrder)?b.navOrder:[]);
  return {...cleanObj(v),design,home,header,footer,seo,visibility,customBlocks,navOrder};
 };

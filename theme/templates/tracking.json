@@ -3,7 +3,7 @@
   "title": "Seguimiento · ModoShop Venezuela",
   "description": "Consulta el estado de tu pedido en ModoShop Venezuela.",
   "themeColor": "#0f284a",
-  "css": "tracking.css",
+  "css": "minimal.css",
   "content": [
     "tracking/main.html"
   ],

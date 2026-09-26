@@ -1,9 +1,12 @@
 {
   "home": "/",
+  "products": "/products",
   "product": "/products/:id",
   "cart": "/cart",
+  "checkout": "/checkout",
   "tracking": "/track/:id",
-  "admin": "/admin.html",
+  "admin": "/admin",
+  "adminHtml": "/admin.html",
   "success": "/success.html",
   "legal": "/legal.html"
 }

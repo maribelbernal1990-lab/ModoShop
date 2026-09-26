@@ -3,7 +3,7 @@
   "title": "Pedido recibido · ModoShop Venezuela",
   "description": "Confirmación de pedido de ModoShop Venezuela.",
   "themeColor": "#ed1c24",
-  "css": "success.css",
+  "css": "minimal.css",
   "content": [
     "success/main.html"
   ],
