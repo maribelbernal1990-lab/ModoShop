@@ -1,5 +1,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
+const exec=promisify(execFile);
 
 const root=process.cwd();
 const theme=path.join(root,'theme');
@@ -69,9 +72,7 @@ for(const [remotePath,localPath] of requiredAssets){
   const target=path.join(dist,localPath);
   try{await fs.access(target);continue}catch{}
   await fs.mkdir(path.dirname(target),{recursive:true});
-  const response=await fetch(base+'/assets/'+remotePath);
-  if(!response.ok) throw new Error('Required asset unavailable: '+remotePath+' (HTTP '+response.status+')');
-  await fs.writeFile(target,Buffer.from(await response.arrayBuffer()));
+  await exec('curl',['-fsSL','--retry','3','--connect-timeout','15',base+'/assets/'+remotePath,'-o',target]);
 }
 
 const scripts={
