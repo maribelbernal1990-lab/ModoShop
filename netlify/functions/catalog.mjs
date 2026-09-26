@@ -4,4 +4,3 @@ export default async (request) => {
  const [products,settings]=await Promise.all([getCatalog(),getPublicSettings()]);
  return Response.json({products:products.filter(p=>p.active!==false),settings},{headers:{'cache-control':'no-store'}});
 };
-export const config={path:'/api/catalog'};
