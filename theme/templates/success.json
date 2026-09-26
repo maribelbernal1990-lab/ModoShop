@@ -1,9 +1,14 @@
 {
-  "output":"success.html",
-  "title":"Pedido recibido · ModoShop Venezuela",
-  "description":"Confirmación de pedido de ModoShop Venezuela.",
-  "themeColor":"#ed1c24",
-  "css":"success.css",
-  "content":["success/main.html"],
-  "scripts":["success.js"]
+  "output": "success.html",
+  "title": "Pedido recibido · ModoShop Venezuela",
+  "description": "Confirmación de pedido de ModoShop Venezuela.",
+  "themeColor": "#ed1c24",
+  "css": "success.css",
+  "content": [
+    "success/main.html"
+  ],
+  "scripts": [
+    "core.js",
+    "success.js"
+  ]
 }
