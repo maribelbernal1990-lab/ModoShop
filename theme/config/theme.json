@@ -10,6 +10,8 @@
   "performance": {
     "imageCDN": true,
     "lazyLoad": true,
-    "apiCacheSeconds": 30
-  }
+    "apiCacheSeconds": 30,
+    "catalogCacheSeconds": 30
+  },
+  "architecture": "shopify-inspired"
 }
