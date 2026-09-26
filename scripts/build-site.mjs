@@ -42,5 +42,6 @@ for(const file of (await fs.readdir(templates)).filter(x=>x.endsWith('.json'))){
   const html=layout.replace('{{HEAD}}',head).replace('{{HEADER}}',header).replace('{{CONTENT}}',sections.join('')).replace('{{FOOTER}}',footer).replace('{{OVERLAYS}}',overlays).replace('{{SCRIPTS}}',scripts);
   await fs.writeFile(path.join(dist,m.output),html,'utf8');
 }
+await rewriteImages(dist);
 await fs.writeFile(path.join(dist,'robots.txt'),'User-agent: *\nAllow: /\nSitemap: '+(process.env.URL||'https://gleaming-brigadeiros-c260a9.netlify.app')+'/sitemap.xml\n','utf8');
 console.log('ModoShop Shopify-inspired theme build complete');
