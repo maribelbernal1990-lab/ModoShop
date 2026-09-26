@@ -51,4 +51,5 @@ for(const file of manifests){
  let html=layout.replace('{{HEAD}}',head(m)).replace('{{HEADER}}','').replace('{{CONTENT}}',header+content.join('')).replace('{{FOOTER}}',footer).replace('{{OVERLAYS}}',overlays).replace('{{SCRIPTS}}',scripts);
  await fs.writeFile(path.join(dist,m.output),html.replace(/<base href="[^"]*">/gi,'').replace(/\n\s*\n/g,'\n'),'utf8');
 }
+await rewrite(dist);
 console.log('ModoShop theme build complete');
