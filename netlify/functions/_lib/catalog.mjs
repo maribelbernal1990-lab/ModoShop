@@ -2,6 +2,7 @@ import { configStore } from './store.mjs';
 import { DEFAULT_PRODUCTS } from './default-products.mjs';
 export const CATALOG_KEY='products', SETTINGS_KEY='settings';
 const clone=v=>JSON.parse(JSON.stringify(v));
+const optimizeLocalAsset=v=>{const s=String(v??'');return /^\/?assets\/.+\.(?:png|jpe?g)$/i.test(s)?s.replace(/\.(png|jpe?g)$/i,'.webp'):s};
 export async function getCatalog(){
  const store=configStore(),saved=await store.get(CATALOG_KEY,{type:'json'});
  if(Array.isArray(saved)&&saved.length){
@@ -11,14 +12,13 @@ export async function getCatalog(){
      return hasLegacyAlternates ? {...p,gallery:p.img?[String(p.img)]:[]} : p;
    });
    if(JSON.stringify(migrated)!==JSON.stringify(saved)) await store.setJSON(CATALOG_KEY,migrated);
-   return migrated;
- }
+   return migrated.map(p=>({...p,img:optimizeLocalAsset(p.img),gallery:Array.isArray(p.gallery)?p.gallery.map(optimizeLocalAsset):[]}));
  const seeded=DEFAULT_PRODUCTS.map(p=>({...p,active:true,stock:typeof p.stock==='number'?p.stock:25,sku:p.sku||p.id.toUpperCase(),compareAt:p.compareAt||null,tags:Array.isArray(p.tags)?p.tags:[p.tag].filter(Boolean),seoTitle:p.seoTitle||p.name,seoDescription:p.seoDescription||p.desc}));
  await store.setJSON(CATALOG_KEY,seeded); return seeded;
 }
 export async function saveCatalog(products){
  const sanitized=clone(products).map(p=>({...p,id:String(p.id||'').trim(),name:String(p.name||'').trim(),price:Number(p.price||0),category:String(p.category||'General').trim(),desc:String(p.desc||'').trim(),features:Array.isArray(p.features)?p.features.map(String).filter(Boolean):[],bullets:Array.isArray(p.bullets)?p.bullets.map(String).filter(Boolean):[],use:Array.isArray(p.use)?p.use.map(String).filter(Boolean):[],gallery:Array.isArray(p.gallery)?p.gallery.map(String).filter(Boolean):[],active:p.active!==false,stock:Math.max(0,Math.floor(Number(p.stock??0))),sku:String(p.sku||p.id||'').trim().slice(0,80),compareAt:p.compareAt==null||p.compareAt===''?null:Number(p.compareAt),tags:Array.isArray(p.tags)?p.tags.map(String).filter(Boolean).slice(0,20):[]})).filter(p=>p.id&&p.name);
- await configStore().setJSON(CATALOG_KEY,sanitized); return sanitized;
+ const optimized=sanitized.map(p=>({...p,img:optimizeLocalAsset(p.img),gallery:Array.isArray(p.gallery)?p.gallery.map(optimizeLocalAsset):[]})); await configStore().setJSON(CATALOG_KEY,optimized); return optimized;
 }
 export async function getPublicSettings(){
  return await configStore().get(SETTINGS_KEY,{type:'json'})||{
