@@ -29,4 +29,3 @@ export default async request=>{
   return json({ok:true,orderId:id,status:order.status,notifications:notifications.map(n=>({ok:!!n?.ok,skipped:!!n?.skipped,reason:n?.reason||null}))},201,cors);
  }catch(e){return json({error:'No se pudo crear el pedido'},500,cors)}
 };
-export const config={path:'/api/orders'};
