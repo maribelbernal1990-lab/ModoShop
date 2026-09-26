@@ -1,0 +1,12 @@
+{
+  "output":"producto.html",
+  "title":"Producto · ModoShop Venezuela",
+  "description":"Producto ModoShop Venezuela",
+  "themeColor":"#0f284a",
+  "css":"product.css",
+  "header":"header-product.html",
+  "content":["product/main.html"],
+  "footer":"footer-product.html",
+  "overlays":"overlays-product.html",
+  "scripts":["media.js","catalog-client.js","rate-client.js","reviews.js","product-page.js"]
+ }
