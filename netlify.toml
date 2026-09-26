@@ -1,0 +1,63 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/maps-config"
+  to = "/.netlify/functions/maps-config"
+  status = 200
+[[redirects]]
+  from = "/api/orders"
+  to = "/.netlify/functions/create-order"
+  status = 200
+[[redirects]]
+  from = "/api/track"
+  to = "/.netlify/functions/track-order"
+  status = 200
+[[redirects]]
+  from = "/api/admin/login"
+  to = "/.netlify/functions/admin-login"
+  status = 200
+[[redirects]]
+  from = "/api/admin/logout"
+  to = "/.netlify/functions/admin-logout"
+  status = 200
+[[redirects]]
+  from = "/api/admin/orders"
+  to = "/.netlify/functions/admin-orders"
+  status = 200
+[[redirects]]
+  from = "/api/admin/status"
+  to = "/.netlify/functions/admin-status"
+  status = 200
+[[redirects]]
+  from = "/api/catalog"
+  to = "/.netlify/functions/catalog"
+  status = 200
+[[redirects]]
+  from = "/api/admin/catalog"
+  to = "/.netlify/functions/admin-catalog"
+  status = 200
+[[redirects]]
+  from = "/api/admin/settings"
+  to = "/.netlify/functions/admin-settings"
+  status = 200
+[[redirects]]
+  from = "/api/admin/upload"
+  to = "/.netlify/functions/admin-upload"
+  status = 200
+[[redirects]]
+  from = "/api/media"
+  to = "/.netlify/functions/media"
+  status = 200
+[[redirects]]
+  from = "/api/reviews"
+  to = "/.netlify/functions/reviews"
+  status = 200
+[[redirects]]
+  from = "/api/admin/reviews"
+  to = "/.netlify/functions/admin-reviews"
+  status = 200
