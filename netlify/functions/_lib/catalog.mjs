@@ -4,7 +4,15 @@ export const CATALOG_KEY='products', SETTINGS_KEY='settings';
 const clone=v=>JSON.parse(JSON.stringify(v));
 export async function getCatalog(){
  const store=configStore(),saved=await store.get(CATALOG_KEY,{type:'json'});
- if(Array.isArray(saved)&&saved.length)return saved;
+ if(Array.isArray(saved)&&saved.length){
+   const migrated=saved.map(p=>{
+     const g=Array.isArray(p.gallery)?p.gallery:[];
+     const hasLegacyAlternates=g.some(x=>/-vista[234]\\?\.jpg$/i.test(String(x))||/masajeador-ficha/i.test(String(x)));
+     return hasLegacyAlternates ? {...p,gallery:p.img?[String(p.img)]:[]} : p;
+   });
+   if(JSON.stringify(migrated)!==JSON.stringify(saved)) await store.setJSON(CATALOG_KEY,migrated);
+   return migrated;
+ }
  const seeded=DEFAULT_PRODUCTS.map(p=>({...p,active:true,stock:typeof p.stock==='number'?p.stock:25,sku:p.sku||p.id.toUpperCase(),compareAt:p.compareAt||null,tags:Array.isArray(p.tags)?p.tags:[p.tag].filter(Boolean),seoTitle:p.seoTitle||p.name,seoDescription:p.seoDescription||p.desc}));
  await store.setJSON(CATALOG_KEY,seeded); return seeded;
 }
