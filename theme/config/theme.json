@@ -1,6 +1,6 @@
 {
   "name": "ModoShop Theme",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "routes": {
     "home": "/",
     "product": "/products/:id",
@@ -23,5 +23,6 @@
     "theme/templates",
     "theme/assets",
     "theme/config"
-  ]
+  ],
+  "lastRefactor": "2026-09-26"
 }
