@@ -7,4 +7,3 @@ export default async (request)=>{
  if(String(password||'')!==expected) return json({error:'Contraseña incorrecta'},401);
  return json({ok:true},200,{'set-cookie':sessionCookie(makeSession())});
 };
-export const config={path:'/api/admin/login'};
