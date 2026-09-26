@@ -1,0 +1,1 @@
+window.ModoReviews=(()=>{const key=id=>`modoshop_reviews_${id}`;const read=id=>{try{const v=JSON.parse(localStorage.getItem(key(id))||'[]');return Array.isArray(v)?v:[]}catch{return[]}};const stats=id=>{const items=read(id),count=items.length,avg=count?items.reduce((s,x)=>s+Number(x.stars||0),0)/count:0;return{count,avg,items}};return{key,read,stats}})();
