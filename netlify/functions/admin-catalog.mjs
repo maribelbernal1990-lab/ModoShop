@@ -8,4 +8,3 @@ export default async (request)=>{
  if(!Array.isArray(body.products)) return json({error:'products debe ser un array'},400);
  return json({ok:true,products:await saveCatalog(body.products)});
 };
-export const config={path:'/api/admin/catalog'};
