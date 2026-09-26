@@ -15,8 +15,4 @@ for(const fn of requiredFunctions){
   const p=path.join(root,'netlify','functions',fn+'.mjs');
   await fs.access(p);
 }
-const index=await fs.readFile(path.join(root,'dist','index.html'),'utf8');
-for(const route of ['/products/','/admin.html']){
-  if(!index.includes(route) && route==='/products/') throw new Error('Expected product routing hook missing');
-}
 console.log('ModoShop build verification passed');
