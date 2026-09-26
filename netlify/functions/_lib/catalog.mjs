@@ -2,7 +2,7 @@ import { configStore } from './store.mjs';
 import { DEFAULT_PRODUCTS } from './default-products.mjs';
 export const CATALOG_KEY='products', SETTINGS_KEY='settings';
 const clone=v=>JSON.parse(JSON.stringify(v));
-const optimizeLocalAsset=v=>{const s=String(v??'');return /^\/?assets\/.+\.(?:png|jpe?g)$/i.test(s)?s.replace(/\.(png|jpe?g)$/i,'.webp'):s};
+const optimizeLocalAsset=v=>String(v??'');
 export async function getCatalog(){
  const store=configStore(),saved=await store.get(CATALOG_KEY,{type:'json'});
  if(Array.isArray(saved)&&saved.length){
