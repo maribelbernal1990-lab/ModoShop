@@ -4,6 +4,9 @@
   functions = "netlify/functions"
 [build.environment]
   NODE_VERSION = "22"
+[images]
+  remote_images = ["https://55d7d1a6652f926b7952058d16423d301a086ff6--gleaming-brigadeiros-c260a9.netlify.app/assets/.*"]
+
 [functions]
   node_bundler = "esbuild"
 
