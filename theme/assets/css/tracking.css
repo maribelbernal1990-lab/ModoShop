@@ -1,0 +1,20 @@
+body{margin:0;background:#f7f7f5;color:#111318;font-family:Inter,system-ui,sans-serif}.wrap{width:min(760px,92%);margin:50px auto}.card{background:#fff;border:1px solid #e7e8eb;border-radius:24px;padding:28px;box-shadow:0 18px 55px #11131812}.brand{display:flex;align-items:center;gap:12px}.brand img{width:58px;height:58px;border-radius:50%;background:#000}.muted{color:#68707f}.form{display:flex;gap:8px;margin:20px 0}.form input{flex:1;border:1px solid #ddd;border-radius:12px;padding:13px}.btn{border:0;border-radius:12px;padding:13px 17px;font-weight:750;cursor:pointer;background:#ed1c24;color:#fff}.status{display:inline-flex;padding:8px 11px;border-radius:999px;background:#fff1f1;color:#d91219;font-weight:750}.line{padding:12px 0;border-bottom:1px solid #eee}.success{color:#159a63}.error{color:#b42318}
+/* Micro-interacción ModoShop: botones con vibración suave al pasar el cursor */
+@keyframes msButtonVibrate{0%{transform:translateY(-3px) rotate(0deg)}20%{transform:translateY(-3px) rotate(-1.4deg)}40%{transform:translateY(-3px) rotate(1.4deg)}60%{transform:translateY(-3px) rotate(-1deg)}80%{transform:translateY(-3px) rotate(1deg)}100%{transform:translateY(-3px) rotate(0deg)}}
+button:hover,.btn:hover{animation:msButtonVibrate .32s ease-in-out both;transform-origin:center;}
+button:focus-visible,.btn:focus-visible{outline:3px solid rgba(237,28,36,.35);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){button:hover,.btn:hover{animation:none}}
+
+h1,h2{font-weight:700}p{font-weight:400}body{margin:0;background:#f7f7f5;font-family:Inter,system-ui,sans-serif;color:#111318;display:grid;place-items:center;min-height:100vh}.card{width:min(620px,88%);background:#fff;border:1px solid #e7e8eb;border-radius:25px;padding:36px;text-align:center;box-shadow:0 20px 60px #00000012}.logo{width:80px;height:80px;border-radius:50%;background:#000;object-fit:cover}.ok{font-size:58px;margin:12px 0;color:#159a63}.btn{display:inline-block;margin:8px 5px;background:#ed1c24;color:#fff;text-decoration:none;padding:13px 18px;border-radius:12px;font-weight:750}.secondary{background:#111318}.muted{color:#68707f;font-size:13px;line-height:1.6}.box{background:#f7f7f5;border:1px solid #e7e8eb;border-radius:15px;padding:15px;margin:18px 0}
+/* Micro-interacción ModoShop: botones con vibración suave al pasar el cursor */
+@keyframes msButtonVibrate{0%{transform:translateY(-3px) rotate(0deg)}20%{transform:translateY(-3px) rotate(-1.4deg)}40%{transform:translateY(-3px) rotate(1.4deg)}60%{transform:translateY(-3px) rotate(-1deg)}80%{transform:translateY(-3px) rotate(1deg)}100%{transform:translateY(-3px) rotate(0deg)}}
+button:hover,.btn:hover{animation:msButtonVibrate .32s ease-in-out both;transform-origin:center;}
+button:focus-visible,.btn:focus-visible{outline:3px solid rgba(237,28,36,.35);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){button:hover,.btn:hover{animation:none}}
+
+body{margin:0;background:#f6f7f5;color:#17191e;font-family:Poppins,Inter,system-ui,sans-serif}.wrap{width:min(820px,92%);margin:40px auto}.card{background:#fff;border:1px solid #e9eaed;border-radius:24px;padding:28px;box-shadow:0 20px 60px rgba(17,19,24,.07)}a{color:#c2410c;font-weight:800;text-decoration:none}.muted{color:#697181;line-height:1.7;font-size:13px}h1,h2{letter-spacing:-1px}.top{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:20px}.btn{display:inline-block;background:#17191e;color:#fff;border-radius:999px;padding:11px 16px;font-weight:750}
+/* Micro-interacción ModoShop: botones con vibración suave al pasar el cursor */
+@keyframes msButtonVibrate{0%{transform:translateY(-3px) rotate(0deg)}20%{transform:translateY(-3px) rotate(-1.4deg)}40%{transform:translateY(-3px) rotate(1.4deg)}60%{transform:translateY(-3px) rotate(-1deg)}80%{transform:translateY(-3px) rotate(1deg)}100%{transform:translateY(-3px) rotate(0deg)}}
+button:hover,.btn:hover{animation:msButtonVibrate .32s ease-in-out both;transform-origin:center;}
+button:focus-visible,.btn:focus-visible{outline:3px solid rgba(237,28,36,.35);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){button:hover,.btn:hover{animation:none}}
