@@ -7,4 +7,3 @@ export default async (request)=>{
  if(!blob) return new Response('No encontrado',{status:404});
  return new Response(blob,{status:200,headers:{'content-type':blob.type||'application/octet-stream','cache-control':'public,max-age=31536000,immutable'}});
 };
-export const config={path:'/api/media'};
