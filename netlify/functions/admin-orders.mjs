@@ -7,4 +7,3 @@ export default async (request)=>{
  orders.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
  return json({orders});
 };
-export const config={path:'/api/admin/orders'};
