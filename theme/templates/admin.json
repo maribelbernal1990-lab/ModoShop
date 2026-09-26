@@ -1,0 +1,9 @@
+{
+  "output":"admin.html",
+  "title":"Administración · ModoShop Venezuela",
+  "description":"Panel de administración de ModoShop Venezuela",
+  "themeColor":"#111318",
+  "css":"admin.css",
+  "content":["admin/main.html"],
+  "scripts":["admin.js"]
+}
