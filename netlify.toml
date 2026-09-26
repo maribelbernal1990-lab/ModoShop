@@ -1,4 +1,5 @@
 [build]
+  command = "bash scripts/prepare-static.sh"
   publish = "."
   functions = "netlify/functions"
 
