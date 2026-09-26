@@ -1,22 +1,100 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-const root=process.cwd(),theme=path.join(root,'theme'),dist=path.join(root,'dist'),siteBase=process.env.PUBLIC_SITE_URL||'https://gleaming-brigadeiros-c260a9.netlify.app';
+
+const root=process.cwd();
+const theme=path.join(root,'theme');
+const dist=path.join(root,'dist');
+const base=process.env.PUBLIC_SITE_URL||'https://gleaming-brigadeiros-c260a9.netlify.app';
+
 await fs.rm(dist,{recursive:true,force:true});
 await fs.mkdir(dist,{recursive:true});
-async function copyTree(from,to){await fs.mkdir(to,{recursive:true});for(const e of await fs.readdir(from,{withFileTypes:true})){if(e.name==='README.md')continue;const a=path.join(from,e.name),b=path.join(to,e.name);if(e.isDirectory())await copyTree(a,b);else await fs.copyFile(a,b);}}
-async function write(rel,value){const f=path.join(dist,rel);await fs.mkdir(path.dirname(f),{recursive:true});await fs.writeFile(f,value);}
-function extractInline(html){const ms=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].filter(m=>!(/\bsrc\s*=/.test(m[1]))&&!/application\/ld\+json/i.test(m[1])&&m[2].trim());return(ms.at(-1)?.[2]||'').trim();}
-function normalize(html){return html.replace(/\n?\s*<script[^>]*src=["']assets\/js\/[^"']+["'][^>]*><\/script>/gi,'').replace(/href=["']index\.html#productos["']/g,'href="/#productos"').replace(/href=["']index\.html["']/g,'href="/"').replace(/href=["']admin\.html["']/g,'href="/admin.html"').replace(/href=["']seguimiento\.html["']/g,'href="/track"').replace(/producto\.html\?id=/g,'/products/');}
+
+async function copyTree(from,to){
+  await fs.mkdir(to,{recursive:true});
+  for(const entry of await fs.readdir(from,{withFileTypes:true})){
+    if(entry.name==='README.md') continue;
+    const src=path.join(from,entry.name);
+    const dst=path.join(to,entry.name);
+    if(entry.isDirectory()) await copyTree(src,dst);
+    else await fs.copyFile(src,dst);
+  }
+}
+
+async function writeFile(rel,data){
+  const file=path.join(dist,rel);
+  await fs.mkdir(path.dirname(file),{recursive:true});
+  await fs.writeFile(file,data);
+}
+
+function extractInline(html){
+  const matches=[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
+    .filter(m=>!/\bsrc\s*=/.test(m[1])&&!/application\/ld\+json/i.test(m[1])&&m[2].trim());
+  return matches.at(-1)?.[2]?.trim()||'';
+}
+
+const routeRuntime=[
+  ['admin.html','admin.js'],
+  ['seguimiento.html','tracking.js'],
+];
+
 await copyTree(path.join(theme,'templates'),dist);
 await copyTree(path.join(theme,'assets'),path.join(dist,'assets'));
 await fs.copyFile(path.join(theme,'data','catalog-fallback.json'),path.join(dist,'assets','catalog-data.json'));
-for(const [name,runtime] of [['admin.html','admin.js'],['seguimiento.html','tracking.js']]){const source=await fs.readFile(path.join(root,name),'utf8');const code=extractInline(source);if(code)await write('assets/js/'+runtime,code+'\n');}
-for(const [name,runtime] of [['success.html','success.js']]){try{await fs.access(path.join(theme,'assets','js',runtime));}catch{const source=await fs.readFile(path.join(root,name),'utf8');const code=extractInline(source);if(code)await write('assets/js/'+runtime,code+'\n');}}
-try{await fs.access(path.join(theme,'assets','js','storefront.js'));}catch{const source=await fs.readFile(path.join(root,'index.html'),'utf8');const code=extractInline(source);if(code)await write('assets/js/storefront.js',code+'\n');}
-const brandNames=['logo.png','hero-tech.png','hero-family.png'];
-for(const name of brandNames){const target=path.join(dist,'assets',name);await fs.mkdir(path.dirname(target),{recursive:true});try{await fs.access(target);continue;}catch{}const r=await fetch(siteBase+'/assets/'+name);if(!r.ok)throw new Error('Unable to fetch '+name);await fs.writeFile(target,Buffer.from(await r.arrayBuffer()));}
-const originalNames=['bandolero-usb.jpg','camara-bombillo-360.jpg','camara-dual-6mp.jpg','licuadora-portatil.jpg','masajeador-mini.jpg','microfono-v8.jpg','plancha-vapor-raf.jpg','radios-bf888s.jpg','tensiometro-brazalete.jpg','timbre-camara-wifi.jpg'];
-for(const name of originalNames){const target=path.join(dist,'assets','products',name);await fs.mkdir(path.dirname(target),{recursive:true});try{await fs.access(target);continue;}catch{}const r=await fetch(siteBase+'/assets/products/'+name);if(!r.ok)throw new Error('Unable to fetch '+name);await fs.writeFile(target,Buffer.from(await r.arrayBuffer()));}
-const scripts={'index.html':['catalog-client.js','rate-client.js','reviews.js','media.js','storefront.js'],'producto.html':['catalog-client.js','rate-client.js','reviews.js','media.js','product-page.js'],'admin.html':['admin.js'],'seguimiento.html':['tracking.js'],'success.html':['success.js']};
-for(const [name,list] of Object.entries(scripts)){const f=path.join(dist,name);let html=normalize(await fs.readFile(f,'utf8'));const css=name==='index.html'?'storefront.css':name==='producto.html'?'product.css':name==='admin.html'?'admin.css':name==='seguimiento.html'?'tracking.css':name==='success.html'?'success.css':'legal.css';html=html.replace(/<link rel="stylesheet" href="assets\/css\/[^"]+">/i,'');html=html.replace('</head>','<link rel="stylesheet" href="/assets/css/'+css+'">\n</head>');const tags=list.map(s=>'<script src="/assets/js/'+s+'" defer></script>').join('');html=html.replace('</body>',tags+'\n</body>');await fs.writeFile(f,html);}
-console.log('ModoShop theme build complete');
+
+for(const [page,runtime] of routeRuntime){
+  const themeRuntime=path.join(theme,'assets','js',runtime);
+  try{await fs.access(themeRuntime);continue}catch{}
+  const html=await fs.readFile(path.join(root,page),'utf8');
+  const code=extractInline(html);
+  if(code) await writeFile('assets/js/'+runtime,code+'\n');
+}
+
+const requiredAssets=[
+  ['logo.png','assets/logo.png'],
+  ['hero-tech.png','assets/hero-tech.png'],
+  ['hero-family.png','assets/hero-family.png'],
+  ['products/bandolero-usb.jpg','assets/products/bandolero-usb.jpg'],
+  ['products/camara-bombillo-360.jpg','assets/products/camara-bombillo-360.jpg'],
+  ['products/camara-dual-6mp.jpg','assets/products/camara-dual-6mp.jpg'],
+  ['products/licuadora-portatil.jpg','assets/products/licuadora-portatil.jpg'],
+  ['products/masajeador-mini.jpg','assets/products/masajeador-mini.jpg'],
+  ['products/microfono-v8.jpg','assets/products/microfono-v8.jpg'],
+  ['products/plancha-vapor-raf.jpg','assets/products/plancha-vapor-raf.jpg'],
+  ['products/radios-bf888s.jpg','assets/products/radios-bf888s.jpg'],
+  ['products/tensiometro-brazalete.jpg','assets/products/tensiometro-brazalete.jpg'],
+  ['products/timbre-camara-wifi.jpg','assets/products/timbre-camara-wifi.jpg'],
+];
+
+for(const [remotePath,localPath] of requiredAssets){
+  const target=path.join(dist,localPath);
+  try{await fs.access(target);continue}catch{}
+  await fs.mkdir(path.dirname(target),{recursive:true});
+  const response=await fetch(base+'/assets/'+remotePath);
+  if(!response.ok) throw new Error('Required asset unavailable: '+remotePath+' (HTTP '+response.status+')');
+  await fs.writeFile(target,Buffer.from(await response.arrayBuffer()));
+}
+
+const scripts={
+  'index.html':['catalog-client.js','rate-client.js','reviews.js','storefront.js'],
+  'producto.html':['catalog-client.js','rate-client.js','reviews.js','product-page.js'],
+  'admin.html':['admin.js'],
+  'seguimiento.html':['tracking.js'],
+  'success.html':['success.js'],
+};
+
+for(const [page,assets] of Object.entries(scripts)){
+  const file=path.join(dist,page);
+  let html=await fs.readFile(file,'utf8');
+  html=html.replace(/<link rel="stylesheet" href="assets\/css\/[^"]+"\s*\/?>/i,'');
+  const css=page==='index.html'?'storefront.css':
+    page==='producto.html'?'product.css':
+    page==='admin.html'?'admin.css':
+    page==='seguimiento.html'?'tracking.css':
+    page==='success.html'?'success.css':'legal.css';
+  html=html.replace('</head>','<link rel="stylesheet" href="/assets/css/'+css+'">\n</head>');
+  html=html.replace(/<script[^>]*src=["']assets\/js\/[^"']+["'][^>]*>\s*<\/script>/gi,'');
+  html=html.replace('</body>',assets.map(name=>'<script src="/assets/js/'+name+'" defer></script>').join('')+'\n</body>');
+  await fs.writeFile(file,html);
+}
+
+console.log('ModoShop 3.0 build complete');
