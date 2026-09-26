@@ -1,0 +1,8 @@
+{
+  "output":"legal.html",
+  "title":"Términos y privacidad · ModoShop Venezuela",
+  "description":"Términos y política de privacidad de ModoShop Venezuela.",
+  "themeColor":"#111318",
+  "css":"legal.css",
+  "content":["legal/main.html"]
+}
