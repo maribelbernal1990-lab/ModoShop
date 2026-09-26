@@ -17,13 +17,7 @@ export const DEFAULT_PRODUCTS = [
     ],
     "source": "https://17well.com/es/products/17well-mini-massage-gun",
     "sourceLabel": "Referencia técnica: mini massage gun 4 cabezales",
-    "gallery": [
-      "assets/products/masajeador-mini.jpg",
-      "assets/products/masajeador-ficha.jpg",
-      "assets/products/masajeador-mini-vista2.jpg",
-      "assets/products/masajeador-mini-vista3.jpg",
-      "assets/products/masajeador-mini-vista4.jpg"
-    ],
+    "gallery": ["assets/products/masajeador-mini.jpg"],
     "promise": "Relajación y recuperación donde la necesites",
     "bullets": [
       "Cabezal de percusión para masaje localizado",
@@ -56,12 +50,7 @@ export const DEFAULT_PRODUCTS = [
     ],
     "source": "https://www.baofeng.com.ar/equipos-portatiles/handies-analogicos-uhf/handy-baofeng-bf-888s",
     "sourceLabel": "Referencia técnica: Baofeng BF-888S",
-    "gallery": [
-      "assets/products/radios-bf888s.jpg",
-      "assets/products/radios-bf888s-vista2.jpg",
-      "assets/products/radios-bf888s-vista3.jpg",
-      "assets/products/radios-bf888s-vista4.jpg"
-    ],
+    "gallery": ["assets/products/radios-bf888s.jpg"],
     "promise": "Comunicación práctica en movimiento",
     "bullets": [
       "Kit de 2 radios + accesorios del conjunto",
@@ -95,12 +84,7 @@ export const DEFAULT_PRODUCTS = [
     ],
     "source": "https://www.shein.com.mx/Smart-Wireless-Doorbell-Visual-WiFi-Door-Doorbell-Camera%2C-Night-Vision%2C-Real-Time-Notification%2CVoice-Changer%2C-Photo%26Video%2C-2-Way-Audio-p-58671575.html",
     "sourceLabel": "Referencia técnica: timbre Wi‑Fi inteligente",
-    "gallery": [
-      "assets/products/timbre-camara-wifi.jpg",
-      "assets/products/timbre-camara-wifi-vista2.jpg",
-      "assets/products/timbre-camara-wifi-vista3.jpg",
-      "assets/products/timbre-camara-wifi-vista4.jpg"
-    ],
+    "gallery": ["assets/products/timbre-camara-wifi.jpg"],
     "promise": "Controla quién llega desde tu celular",
     "bullets": [
       "Timbre con cámara y conexión Wi‑Fi",
@@ -134,12 +118,7 @@ export const DEFAULT_PRODUCTS = [
     ],
     "source": "https://www.bowlift.com/products/bowlift-waterproof-oxford-crossbody-bag-anti-theft-sling-bag-usb-charging-multi-pocket-design",
     "sourceLabel": "Referencia técnica: bandolero Oxford con USB",
-    "gallery": [
-      "assets/products/bandolero-usb.jpg",
-      "assets/products/bandolero-usb-vista2.jpg",
-      "assets/products/bandolero-usb-vista3.jpg",
-      "assets/products/bandolero-usb-vista4.jpg"
-    ],
+    "gallery": ["assets/products/bandolero-usb.jpg"],
     "promise": "Organiza lo esencial con un diseño compacto",
     "bullets": [
       "Tela Oxford y múltiples compartimentos",
@@ -173,12 +152,7 @@ export const DEFAULT_PRODUCTS = [
     ],
     "source": "https://articulo.mercadolibre.com.ve/MLV-849977572-microfono-condensador-profesional-v8-con-consola-de-sonido-negro-_JM",
     "sourceLabel": "Referencia técnica: kit micrófono V8",
-    "gallery": [
-      "assets/products/microfono-v8.jpg",
-      "assets/products/microfono-v8-vista2.jpg",
-      "assets/products/microfono-v8-vista3.jpg",
-      "assets/products/microfono-v8-vista4.jpg"
-    ],
+    "gallery": ["assets/products/microfono-v8.jpg"],
     "promise": "Sube de nivel tus grabaciones y streaming",
     "bullets": [
       "Micrófono condensador + consola V8",
@@ -212,12 +186,7 @@ export const DEFAULT_PRODUCTS = [
     ],
     "source": "https://isurve.ge/products/%E1%83%AE%E1%83%94%E1%83%9A%E1%83%98%E1%83%A1-%E1%83%9D%E1%83%A0%E1%97%A5%E1%83%Aql%E1%83%98%E1%83%A1-%E1%83%A3%E1%83%97%E1%83%9D-raf-r-1267b",
     "sourceLabel": "Referencia técnica: RAF R.1267B",
-    "gallery": [
-      "assets/products/plancha-vapor-raf.jpg",
-      "assets/products/plancha-vapor-raf-vista2.jpg",
-      "assets/products/plancha-vapor-raf-vista3.jpg",
-      "assets/products/plancha-vapor-raf-vista4.jpg"
-    ],
+    "gallery": ["assets/products/plancha-vapor-raf.jpg"],
     "promise": "Retoques rápidos sin montar una tabla",
     "bullets": [
       "Vapor vertical para prendas",
@@ -251,12 +220,7 @@ export const DEFAULT_PRODUCTS = [
     ],
     "source": "https://www.mercadolibre.cl/tensiometro-digital-de-brazo-e-besting-aeb616-bluetooth-automatico-lcd/p/MLC28906476",
     "sourceLabel": "Referencia técnica: E‑Besting AEB616",
-    "gallery": [
-      "assets/products/tensiometro-brazalete.jpg",
-      "assets/products/tensiometro-brazalete-vista2.jpg",
-      "assets/products/tensiometro-brazalete-vista3.jpg",
-      "assets/products/tensiometro-brazalete-vista4.jpg"
-    ],
+    "gallery": ["assets/products/tensiometro-brazalete.jpg"],
     "promise": "Control personal de presión y pulso en casa",
     "bullets": [
       "Brazalete ajustable",
@@ -290,12 +254,7 @@ export const DEFAULT_PRODUCTS = [
     ],
     "source": "https://www.falabella.com.pe/falabella-pe/product/126626634/Camara-IP-de-Seguridad-WiFi-Foco-Bombillo-Espia-Control-desde-Celular?exp=linio",
     "sourceLabel": "Referencia técnica: cámara IP foco Wi‑Fi",
-    "gallery": [
-      "assets/products/camara-bombillo-360.jpg",
-      "assets/products/camara-bombillo-360-vista2.jpg",
-      "assets/products/camara-bombillo-360-vista3.jpg",
-      "assets/products/camara-bombillo-360-vista4.jpg"
-    ],
+    "gallery": ["assets/products/camara-bombillo-360.jpg"],
     "promise": "Vigilancia discreta en formato bombillo",
     "bullets": [
       "Formato E27 y monitoreo desde app",
@@ -330,12 +289,7 @@ export const DEFAULT_PRODUCTS = [
     ],
     "source": "https://www.v360pro-camera.com/v360pro-app-3k-6mp-outdoor-dual-lens-wireless-waterproof-4g-security-cctv-ptz-wifi-warning-light-cmos-sensor-cloud-data-camera.html",
     "sourceLabel": "Referencia técnica: cámara dual 6MP 3K",
-    "gallery": [
-      "assets/products/camara-dual-6mp.jpg",
-      "assets/products/camara-dual-6mp-vista2.jpg",
-      "assets/products/camara-dual-6mp-vista3.jpg",
-      "assets/products/camara-dual-6mp-vista4.jpg"
-    ],
+    "gallery": ["assets/products/camara-dual-6mp.jpg"],
     "promise": "Más cobertura con doble lente y PTZ",
     "bullets": [
       "Doble sensor y 6 MP / 3K en referencias",
@@ -369,12 +323,7 @@ export const DEFAULT_PRODUCTS = [
     ],
     "source": "https://importadoracuevas.com/products/licuadora-portatil-personal",
     "sourceLabel": "Referencia técnica: licuadora portátil 350 ml",
-    "gallery": [
-      "assets/products/licuadora-portatil.jpg",
-      "assets/products/licuadora-portatil-vista2.jpg",
-      "assets/products/licuadora-portatil-vista3.jpg",
-      "assets/products/licuadora-portatil-vista4.jpg"
-    ],
+    "gallery": ["assets/products/licuadora-portatil.jpg"],
     "promise": "Batidos frescos en cualquier lugar",
     "bullets": [
       "Licuadora personal compacta",
