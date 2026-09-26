@@ -15,4 +15,3 @@ export default async (request)=>{
  if(!id||!status||!productId) return json({error:'Datos incompletos'},400);
  const items=await s.get(key(productId),{type:'json'})||[]; const next=Array.isArray(items)?items.map(r=>r.id===id?{...r,status}:r):items; await s.setJSON(key(productId),next); return json({ok:true});
 };
-export const config={path:'/api/admin/reviews'};
