@@ -22,7 +22,6 @@
   "footer": "footer-storefront.html",
   "overlays": "overlays-storefront.html",
   "scripts": [
-    "core.js",
     "media.js",
     "catalog-client.js",
     "rate-client.js",
