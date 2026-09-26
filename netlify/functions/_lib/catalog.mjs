@@ -8,13 +8,17 @@ export async function getCatalog(){
  if(Array.isArray(saved)&&saved.length){
    const migrated=saved.map(p=>{
      const g=Array.isArray(p.gallery)?p.gallery:[];
-     const hasLegacyAlternates=g.some(x=>/-vista[234]\\?\.jpg$/i.test(String(x))||/masajeador-ficha/i.test(String(x)));
+     const hasLegacyAlternates=g.some(x=>/-vista[234]\.jpg$/i.test(String(x))||/masajeador-ficha/i.test(String(x)));
      return hasLegacyAlternates ? {...p,gallery:p.img?[String(p.img)]:[]} : p;
    });
-   if(JSON.stringify(migrated)!==JSON.stringify(saved)) await store.setJSON(CATALOG_KEY,migrated);
-   return migrated.map(p=>({...p,img:optimizeLocalAsset(p.img),gallery:Array.isArray(p.gallery)?p.gallery.map(optimizeLocalAsset):[]}));
+   const normalized=migrated.map(p=>({...p,img:optimizeLocalAsset(p.img),gallery:Array.isArray(p.gallery)?p.gallery.map(optimizeLocalAsset):[]}));
+   if(JSON.stringify(normalized)!==JSON.stringify(saved)) await store.setJSON(CATALOG_KEY,normalized);
+   return normalized;
+ }
  const seeded=DEFAULT_PRODUCTS.map(p=>({...p,active:true,stock:typeof p.stock==='number'?p.stock:25,sku:p.sku||p.id.toUpperCase(),compareAt:p.compareAt||null,tags:Array.isArray(p.tags)?p.tags:[p.tag].filter(Boolean),seoTitle:p.seoTitle||p.name,seoDescription:p.seoDescription||p.desc}));
- await store.setJSON(CATALOG_KEY,seeded); return seeded;
+ const optimized=seeded.map(p=>({...p,img:optimizeLocalAsset(p.img),gallery:Array.isArray(p.gallery)?p.gallery.map(optimizeLocalAsset):[]}));
+ await store.setJSON(CATALOG_KEY,optimized);
+ return optimized;
 }
 export async function saveCatalog(products){
  const sanitized=clone(products).map(p=>({...p,id:String(p.id||'').trim(),name:String(p.name||'').trim(),price:Number(p.price||0),category:String(p.category||'General').trim(),desc:String(p.desc||'').trim(),features:Array.isArray(p.features)?p.features.map(String).filter(Boolean):[],bullets:Array.isArray(p.bullets)?p.bullets.map(String).filter(Boolean):[],use:Array.isArray(p.use)?p.use.map(String).filter(Boolean):[],gallery:Array.isArray(p.gallery)?p.gallery.map(String).filter(Boolean):[],active:p.active!==false,stock:Math.max(0,Math.floor(Number(p.stock??0))),sku:String(p.sku||p.id||'').trim().slice(0,80),compareAt:p.compareAt==null||p.compareAt===''?null:Number(p.compareAt),tags:Array.isArray(p.tags)?p.tags.map(String).filter(Boolean).slice(0,20):[]})).filter(p=>p.id&&p.name);
