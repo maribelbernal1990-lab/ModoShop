@@ -3,11 +3,8 @@ set -euo pipefail
 BASE_URL="${MODOSHOP_ASSETS_BASE_URL:-https://gleaming-brigadeiros-c260a9.netlify.app}"
 mkdir -p assets/products assets/flyers
 
-# Keep the existing public pages while the repository-backed deploy becomes the new source.
-for page in index.html legal.html producto.html seguimiento.html success.html; do
-  curl -fsSL --retry 3 --connect-timeout 10 "$BASE_URL/$page" -o "$page"
-done
-
+# Static HTML/JS pages live in GitHub. Only legacy binary/media assets are hydrated
+# from the current production site so the repository does not need to store large files.
 while IFS= read -r path; do
   [ -z "$path" ] && continue
   mkdir -p "assets/$(dirname "$path")"
