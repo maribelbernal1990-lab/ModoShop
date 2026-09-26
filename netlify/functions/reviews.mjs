@@ -9,4 +9,3 @@ export default async request=>{
   return new Response('Método no permitido',{status:405});
  }catch{return Response.json({error:'No se pudo procesar la reseña'},{status:500})}
 };
-export const config={path:'/api/reviews'};
