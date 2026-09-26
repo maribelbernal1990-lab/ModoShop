@@ -43,3 +43,5 @@ ASSETS
 
 test -s assets/catalog-data.json
 test -s assets/products/masajeador-mini.jpg
+
+node scripts/optimize-images.mjs
