@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
 BASE_URL="${MODOSHOP_ASSETS_BASE_URL:-https://gleaming-brigadeiros-c260a9.netlify.app}"
 mkdir -p assets/products assets/flyers
+
+# Keep the existing public pages while the repository-backed deploy becomes the new source.
+for page in index.html legal.html producto.html seguimiento.html success.html; do
+  curl -fsSL --retry 3 --connect-timeout 10 "$BASE_URL/$page" -o "$page"
+done
 
 while IFS= read -r path; do
   [ -z "$path" ] && continue
@@ -63,15 +67,13 @@ products/radios-bf888s-vista4.jpg
 products/radios-bf888s.jpg
 products/tensiometro-brazalete-vista2.jpg
 products/tensiometro-brazalete-vista3.jpg
-products/tensiometro-brazalete.jpg
 products/tensiometro-brazalete-vista4.jpg
 products/timbre-camara-wifi-vista2.jpg
 products/timbre-camara-wifi-vista3.jpg
-products/timbre-camara-wifi-vista4.jpg
 products/timbre-camara-wifi.jpg
+products/timbre-camara-wifi-vista4.jpg
 reviews.js
 ASSETS
 
-# Fail loudly so a broken legacy asset cannot silently publish.
 test -s assets/catalog-data.json
 test -s assets/products/masajeador-mini.jpg
