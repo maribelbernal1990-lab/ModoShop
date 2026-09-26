@@ -1,0 +1,94 @@
+<div class="wrap">
+  <div id="login" class="card login">
+    <a class="brand" href="/"><img src="logo.png"><span><strong>ModoShop</strong><small>VENEZUELA · ADMIN</small></span></a>
+    <h2 style="margin:24px 0 6px">Panel de administración</h2>
+    <p class="muted">Gestiona productos, imágenes, inventario, pedidos, reseñas y configuración de la tienda.</p>
+    <div id="setupNote" class="notice" style="margin:14px 0">Usa la contraseña ADMIN_PASSWORD configurada en Netlify.</div>
+    <div class="field"><label>Contraseña</label><input id="pass" type="password" autocomplete="current-password" placeholder="Contraseña de administrador"></div>
+    <button class="btn primary" style="width:100%" onclick="login()">Entrar al panel</button><p id="err" style="color:#b91c1c;font-size:13px"></p>
+  </div>
+
+  <div id="app" class="hidden">
+    <div class="top">
+      <a class="brand" href="/"><img src="logo.png"><span><strong>ModoShop</strong><small>VENEZUELA · ADMIN</small></span></a>
+      <div class="actions"><a class="btn light" href="/">Ver tienda</a><button class="btn dark" onclick="logout()">Salir</button></div>
+    </div>
+    <div class="notice" style="margin-bottom:16px">Este panel ya guarda catálogo, imágenes, reseñas y configuración en Netlify para que los cambios no dependan solo de un navegador.</div>
+
+    <nav class="tabs" aria-label="Secciones de administración">
+      <button class="tab active" data-tab="dashboard">Resumen</button><button class="tab" data-tab="products">Productos</button><button class="tab" data-tab="orders">Pedidos</button><button class="tab" data-tab="reviews">Reseñas</button><button class="tab" data-tab="editor">🎨 Editor visual</button><button class="tab" data-tab="settings">Tienda</button>
+    </nav>
+
+    <section id="panel-dashboard" class="panel active">
+      <div class="stats"><div class="stat"><b id="statProducts">0</b><span>Productos activos</span></div><div class="stat"><b id="statStock">0</b><span>Unidades en inventario</span></div><div class="stat"><b id="statOrders">0</b><span>Pedidos registrados</span></div><div class="stat"><b id="statReviews">0</b><span>Reseñas pendientes</span></div></div>
+      <div class="grid2" style="margin-top:16px"><section class="card"><div class="toolbar"><div><h2 style="margin:0">Últimos pedidos</h2><p class="muted">Actualiza estados y guías desde aquí.</p></div><button class="btn light" onclick="loadOrders()">Actualizar</button></div><div id="dashOrders"></div></section><section class="card"><h2>Acciones rápidas</h2><div class="actions"><button class="btn primary" onclick="openProductEditor()">+ Nuevo producto</button><button class="btn light" onclick="switchTab('products')">Gestionar catálogo</button><button class="btn light" onclick="switchTab('reviews')">Moderar reseñas</button><button class="btn light" onclick="switchTab('settings')">Configurar tienda</button></div><div class="notice" style="margin-top:14px">Puedes subir varias fotos por producto, cambiar precio/stock y publicar o desactivar artículos sin editar código.</div></section></div>
+    </section>
+
+    <section id="panel-products" class="panel">
+      <div class="toolbar"><div style="flex:1"><h2 style="margin:0">Catálogo</h2><p class="muted">Productos persistentes en Netlify.</p></div><input id="productSearch" class="search field" style="margin:0;max-width:340px" placeholder="Buscar producto…" oninput="renderProducts()"><button class="btn primary" onclick="openProductEditor()">+ Nuevo producto</button></div>
+      <div class="card"><div id="productsList"></div></div>
+    </section>
+
+    <section id="panel-orders" class="panel">
+      <div class="card"><div class="toolbar"><div><h2 style="margin:0">Pedidos</h2><p class="muted">Clientes, pago, entrega y seguimiento.</p></div><button class="btn light" onclick="loadOrders()">Actualizar</button></div><div id="orders"></div></div>
+      <div class="card" style="margin-top:16px"><h2>Clientes</h2><div id="customersList"></div></div>
+    </section>
+
+    <section id="panel-reviews" class="panel">
+      <div class="card"><div class="toolbar"><div><h2 style="margin:0">Reseñas</h2><p class="muted">Aprueba solo las opiniones que quieras mostrar públicamente.</p></div><button class="btn light" onclick="loadReviews()">Actualizar</button></div><div id="reviewsList"></div></div>
+    </section>
+
+    
+<section id="panel-editor" class="panel">
+  <div class="grid2 editorLayout">
+    <aside class="card editorNav">
+      <div class="editorNavTitle">Constructor de la tienda</div>
+      <p class="muted" style="font-size:12px;line-height:1.45">Cambia colores, tipografía, textos, imágenes y secciones sin tocar código. Guarda y actualiza la tienda.</p>
+      <button class="editorNavBtn active" data-editor-page="theme">🎨 Apariencia</button>
+      <button class="editorNavBtn" data-editor-page="home">🏠 Página de inicio</button>
+      <button class="editorNavBtn" data-editor-page="header">🧭 Encabezado</button>
+      <button class="editorNavBtn" data-editor-page="blocks">🧩 Secciones personalizadas</button>
+      <button class="editorNavBtn" data-editor-page="footer">📌 Pie de página</button>
+      <button class="editorNavBtn" data-editor-page="seo">🔎 SEO y pestaña</button>
+      <div class="notice" style="margin-top:14px">💡 No necesitas volver a subir la página después de guardar. El editor guarda la configuración en la tienda.</div>
+    </aside>
+    <div>
+      <section class="editorPage active" id="editor-theme">
+        <div class="card"><div class="toolbar"><div><h2 style="margin:0">Apariencia</h2><p class="muted">Colores, fuente y comportamiento global.</p></div><button class="btn primary" onclick="saveVisualSettings()">Guardar cambios</button></div>
+          <div class="presetGrid" id="presetGrid"></div>
+          <div class="row"><div class="field"><label>Fuente principal</label><select id="eFont"><option>Poppins</option><option>Inter</option><option>Montserrat</option><option>Nunito</option><option>DM Sans</option><option>Manrope</option><option>Roboto</option><option>Outfit</option></select></div><div class="field"><label>Radio de bordes</label><input id="eRadius" type="range" min="6" max="40" step="1"><div class="rangeValue" id="eRadiusValue"></div></div></div>
+          <div class="colorGrid"><div class="colorItem"><label>Color principal</label><input id="eAccent" type="color"><code id="eAccentHex"></code></div><div class="colorItem"><label>Color secundario</label><input id="eAccent2" type="color"><code id="eAccent2Hex"></code></div><div class="colorItem"><label>Fondo</label><input id="eBackground" type="color"><code id="eBackgroundHex"></code></div><div class="colorItem"><label>Tarjetas</label><input id="eCard" type="color"><code id="eCardHex"></code></div><div class="colorItem"><label>Texto</label><input id="eInk" type="color"><code id="eInkHex"></code></div><div class="colorItem"><label>Texto secundario</label><input id="eMuted" type="color"><code id="eMutedHex"></code></div></div>
+          <div class="row"><label class="toggleField"><input id="eVibrate" type="checkbox"><span><b>Vibración al pasar el mouse</b><small>Animación suave en botones y acciones.</small></span></label><label class="toggleField"><input id="eFlat" type="checkbox"><span><b>Diseño plano</b><small>Reduce sombras para un look más minimalista.</small></span></label></div>
+        </div>
+      </section>
+      <section class="editorPage" id="editor-home">
+        <div class="card"><div class="toolbar"><div><h2 style="margin:0">Página de inicio</h2><p class="muted">Edita el contenido principal que ven tus clientes.</p></div><button class="btn primary" onclick="saveVisualSettings()">Guardar cambios</button></div>
+          <div class="field"><label>Frase pequeña sobre el título</label><input id="hEyebrow"></div><div class="field"><label>Título principal</label><input id="hTitle"></div><div class="field"><label>Texto del hero</label><textarea id="hText" rows="4"></textarea></div><div class="field"><label>Imagen del hero</label><div class="imageUpload"><img id="hHeroPreview" src="hero-tech.png"><div><input id="hHeroFile" type="file" accept="image/png,image/jpeg,image/webp"><button class="btn light" onclick="uploadSiteAsset('hero')">Subir imagen</button><small class="muted">Usa una foto de productos, familia, estilo de vida o promoción.</small></div></div></div><div class="row"><div class="field"><label>Botón principal</label><input id="hButton"></div><div class="field"><label>Texto botón secundario</label><input id="hButton2"></div></div><div class="row"><div class="field"><label>Título de productos</label><input id="hProductsTitle"></div><div class="field"><label>Descripción de productos</label><input id="hProductsText"></div></div><div class="row"><div class="field"><label>Título “Cómo comprar”</label><input id="hHowTitle"></div><div class="field"><label>Texto “Cómo comprar”</label><input id="hHowText"></div></div><div class="row"><div class="field"><label>Título de pagos</label><input id="hPayTitle"></div><div class="field"><label>Texto de pagos</label><input id="hPayText"></div></div>
+          <div class="sectionSwitches"><h3>Mostrar / ocultar</h3><label><input type="checkbox" id="vProducts"> Productos</label><label><input type="checkbox" id="vHow"> Cómo comprar</label><label><input type="checkbox" id="vPayments"> Pagos</label><label><input type="checkbox" id="vShipping"> Envíos</label><label><input type="checkbox" id="vFaq"> Preguntas frecuentes</label><label><input type="checkbox" id="vSources"> Fuentes</label><label><input type="checkbox" id="vRecent"> Vistos recientemente</label></div>
+        </div>
+      </section>
+      <section class="editorPage" id="editor-header">
+        <div class="card"><div class="toolbar"><div><h2 style="margin:0">Encabezado y navegación</h2><p class="muted">Marca, banner y elementos del menú.</p></div><button class="btn primary" onclick="saveVisualSettings()">Guardar cambios</button></div>
+          <div class="row"><div class="field"><label>Nombre de la tienda</label><input id="gStoreName"></div><div class="field"><label>Texto del banner superior</label><input id="gTicker"></div></div><div class="row"><label class="toggleField"><input id="gSearch" type="checkbox"><span><b>Mostrar buscador</b><small>Oculta/muestra el buscador del menú.</small></span></label><label class="toggleField"><input id="gCart" type="checkbox"><span><b>Mostrar carrito</b><small>Controla el botón del carrito.</small></span></label></div>
+          <div class="field"><label>Logo / imagen de marca</label><div class="imageUpload"><img id="gLogoPreview" src="logo.png"><div><input id="gLogoFile" type="file" accept="image/png,image/jpeg,image/webp"><button class="btn light" onclick="uploadSiteAsset('logo')">Subir logo</button><small class="muted">PNG, JPG o WEBP. La nueva imagen se guarda en Netlify.</small></div></div></div>
+        </div>
+      </section>
+      <section class="editorPage" id="editor-blocks">
+        <div class="card"><div class="toolbar"><div><h2 style="margin:0">Secciones personalizadas</h2><p class="muted">Añade bloques de contenido al cuerpo de la página.</p></div><div class="actions"><button class="btn light" onclick="addBlock()">+ Añadir sección</button><button class="btn primary" onclick="saveVisualSettings()">Guardar cambios</button></div></div><div id="blocksEditor"></div></div>
+      </section>
+      <section class="editorPage" id="editor-footer">
+        <div class="card"><div class="toolbar"><div><h2 style="margin:0">Pie de página</h2><p class="muted">Texto, correo y enlaces de atención.</p></div><button class="btn primary" onclick="saveVisualSettings()">Guardar cambios</button></div><div class="field"><label>Descripción del pie</label><textarea id="ftrText" rows="4"></textarea></div><div class="row"><div class="field"><label>Correo de atención</label><input id="ftrEmail"></div><div class="field"><label>Texto de copyright</label><input id="ftrCopy"></div></div><div class="field"><label>Texto del enlace de administración</label><input id="ftrAdminText"></div></div>
+      </section>
+      <section class="editorPage" id="editor-seo">
+        <div class="card"><div class="toolbar"><div><h2 style="margin:0">SEO y pestaña del navegador</h2><p class="muted">Mejora el título y la descripción que usan buscadores y redes.</p></div><button class="btn primary" onclick="saveVisualSettings()">Guardar cambios</button></div><div class="field"><label>Título SEO</label><input id="seoTitle"></div><div class="field"><label>Descripción SEO</label><textarea id="seoDesc" rows="4"></textarea></div><div class="field"><label>Imagen social / compartir</label><input id="seoImage" placeholder="logo.png o una imagen subida"></div></div>
+      </section>
+    </div>
+  </div>
+</section>
+<section id="panel-settings" class="panel">
+      <div class="grid2"><section class="card"><h2>Configuración de la tienda</h2><div class="row"><div class="field"><label>Nombre de la tienda</label><input id="storeName"></div><div class="field"><label>WhatsApp</label><input id="whatsapp"></div></div><div class="field"><label>Banner superior</label><input id="ticker"></div><div class="field"><label>Datos visibles de pago</label><textarea id="paymentInfo" rows="6" placeholder="Banco, teléfono, titular, Zelle, USDT…"></textarea></div><div class="field"><label>Umbral de envío gratis (USD, 0 = desactivado)</label><input id="freeShippingThreshold" type="number" min="0" step="0.01"></div><button class="btn primary" onclick="saveSettings()">Guardar configuración</button></section><section class="card"><h2>Métodos de pago</h2><div id="payments"></div><div class="notice" style="margin-top:12px">Las credenciales secretas (WhatsApp Cloud API, etc.) no se guardan aquí. Se mantienen en Environment Variables de Netlify.</div><h3 style="margin-top:20px">Catálogo</h3><div class="actions"><button class="btn light" onclick="exportCatalog()">Exportar catálogo</button><label class="btn light">Importar catálogo<input id="catalogImport" type="file" accept="application/json" hidden></label></div></section></div>
+    </section>
+  </div>
+</div>
+
+<div class="modal" id="editorModal"><div class="dialog"><div class="dialogTop"><div><h2 id="editorTitle" style="margin:0">Nuevo producto</h2><p class="muted" style="margin:4px 0 0">Completa la información y publica.</p></div><button class="btn light" onclick="closeEditor()">✕</button></div><div class="grid2" style="margin-top:18px"><div><div class="row"><div class="field"><label>Nombre visible</label><input id="fName"></div><div class="field"><label>SKU</label><input id="fSku"></div></div><div class="row"><div class="field"><label>Precio USD</label><input id="fPrice" type="number" min="0" step="0.01"></div><div class="field"><label>Precio anterior USD (opcional)</label><input id="fCompare" type="number" min="0" step="0.01"></div></div><div class="row"><div class="field"><label>Categoría</label><input id="fCategory"></div><div class="field"><label>Etiqueta</label><input id="fTag" placeholder="Nuevo, Oferta, Más vendido…"></div></div><div class="row"><div class="field"><label>Stock</label><input id="fStock" type="number" min="0" step="1"></div><div class="field"><label>Peso</label><input id="fWeight" placeholder="500 g"></div></div><div class="field"><label>Descripción corta</label><textarea id="fDesc" rows="4"></textarea></div><div class="field"><label>Promesa / beneficio principal</label><input id="fPromise"></div><div class="row"><div class="field"><label>Características (una por línea)</label><textarea id="fFeatures" rows="7"></textarea></div><div class="field"><label>Beneficios / bullets (una por línea)</label><textarea id="fBullets" rows="7"></textarea></div></div><div class="row"><div class="field"><label>Usos (una por línea)</label><textarea id="fUse" rows="5"></textarea></div><div class="field"><label>Etiquetas internas (una por línea)</label><textarea id="fTags" rows="5"></textarea></div></div></div><div><div class="field"><label>Imágenes del producto</label><div class="fileDrop"><input id="fImages" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple><small class="muted">JPG, PNG, WEBP o GIF. Hasta 7 MB por imagen.</small></div></div><div id="editorGallery" class="gallery"></div><div class="field"><label>Fuente / referencia técnica (opcional)</label><input id="fSource"></div><div class="field"><label>Nombre de la fuente</label><input id="fSourceLabel"></div><div class="field"><label>Título SEO</label><input id="fSeoTitle"></div><div class="field"><label>Descripción SEO</label><textarea id="fSeoDesc" rows="4"></textarea></div><label class="checkbox"><input id="fActive" type="checkbox" checked> Producto publicado / visible</label><div class="notice" style="margin-top:12px">El producto queda guardado en el catálogo remoto. Las fotos subidas se conservan en Netlify Blobs y no dependen de tu computadora.</div></div></div><div class="actions" style="justify-content:flex-end;margin-top:18px"><button class="btn light" onclick="closeEditor()">Cancelar</button><button class="btn primary" onclick="saveProduct()">Guardar producto</button></div></div></div>
