@@ -8,7 +8,6 @@
     "tracking/main.html"
   ],
   "scripts": [
-    "core.js",
     "tracking.js"
   ]
 }
