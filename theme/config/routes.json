@@ -1,0 +1,9 @@
+{
+  "home": "/",
+  "product": "/products/:id",
+  "cart": "/cart",
+  "tracking": "/track/:id",
+  "admin": "/admin.html",
+  "success": "/success.html",
+  "legal": "/legal.html"
+}
