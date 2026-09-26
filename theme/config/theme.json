@@ -1,8 +1,1 @@
-{
-  "name": "ModoShop Theme",
-  "version": "3.2.0",
-  "architecture": "shopify-inspired-static",
-  "sourceOfTruth": ["theme/layout","theme/sections","theme/snippets","theme/templates","theme/assets","theme/config"],
-  "performance": {"imageCDN":"Netlify Image CDN","buildWebP":true,"htmlCssJsMinify":true,"lazyLoad":true,"apiCacheSeconds":30,"catalogCacheSeconds":60},
-  "routes": { "home": "/", "product": "/products/:id", "cart": "/cart", "tracking": "/track/:id" }
-}
+{"name":"ModoShop Theme","version":"3.2.1","architecture":"shopify-inspired-static","sourceOfTruth":["theme/layout","theme/sections","theme/snippets","theme/templates","theme/assets","theme/config"],"performance":{"imageCDN":"wsrv.nl WebP optimizer","htmlCssJsMinify":true,"lazyLoad":true,"apiCacheSeconds":30,"catalogCacheSeconds":60},"routes":{"home":"/","product":"/products/:id","cart":"/cart","tracking":"/track/:id","admin":"/admin"}}
